@@ -1,0 +1,24 @@
+version: '3'
+
+tasks:
+  docker_run:
+    cmds:
+      - echo 'building docker fandom-cookbook mongo image'
+      - docker build -f Dockerfile -t fandom-cookbook/mongodb .
+      - docker run -d -p 27017:27017 --name fandom-cookbook_mongodb fandom-cookbook/mongodb
+    silent: true
+
+  docker_clean:
+    cmds:
+      - echo 'destroying fandom-cookbook mongo image'
+      - docker stop fandom-cookbook_mongodb
+      - docker rm fandom-cookbook_mongodb
+      - docker rmi fandom-cookbook/mongodb
+    silent: true
+
+
+  run:
+    cmds:
+      - echo 'running service'
+      - go run main.go
+    silent: true
