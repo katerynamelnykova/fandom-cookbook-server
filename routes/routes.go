@@ -13,6 +13,9 @@ func Router() *chi.Mux {
 	r.Use(middleware.Recoverer)
 
 	r.Get("/health", controllers.Health())
+	r.Get("/get-short-fandom-info", controllers.ShortFandomsInfo())
+	r.Get("/book/{id}", controllers.GetBook())
+	r.Get("/book/{id}/recipe/{rid}", controllers.GetRecipe())
 
 	return r
 }
