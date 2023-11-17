@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -59,4 +60,25 @@ func findRecipe(id primitive.ObjectID, list []models.Recipe) (models.Recipe, err
 		return foundRecipe, fmt.Errorf("Missing id")
 	}
 	return foundRecipe, nil
+}
+
+func PostDB() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if err := Connect(); err != nil {
+			http.Error(w, fmt.Sprint(err), 500)
+			return
+		}
+
+		var database []interface{}
+		json.NewDecoder(r.Body).Decode(&database)
+
+		_, err := mh.AddBooks(database)
+
+		if err != nil {
+			http.Error(w, fmt.Sprint(err), 500)
+			return
+		}
+
+		w.WriteHeader(201)
+	}
 }

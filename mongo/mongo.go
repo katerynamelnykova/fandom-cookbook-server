@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-const DefaultDatabase = "fandom-cookbook-db"
+const DefaultDatabase = "test"
 const BooksCollectionName = "books"
 const APITimeout = 1000 * time.Second
 
