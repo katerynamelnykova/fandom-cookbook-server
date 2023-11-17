@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-const DefaultDatabase = "test"
+const DefaultDatabase = "fandom-coo-main-db-07cc1b8f378"
 const BooksCollectionName = "books"
 const APITimeout = 1000 * time.Second
 
