@@ -18,14 +18,10 @@ func GetRecipe() http.HandlerFunc {
 			return
 		}
 
-		id := chi.URLParam(r, "id")
-		bookId, idErr := primitive.ObjectIDFromHex(id)
-		if idErr != nil {
-			http.Error(w, fmt.Sprint("Invalid id"), 400)
-			return
-		}
+		id := chi.URLParam(r, "fandom")
+		objectName := fmt.Sprintf("%v", id)
 
-		rid := chi.URLParam(r, "rid")
+		rid := chi.URLParam(r, "recipe")
 		recipeId, idErr := primitive.ObjectIDFromHex(rid)
 		if idErr != nil {
 			http.Error(w, fmt.Sprint("Invalid id"), 400)
@@ -33,7 +29,7 @@ func GetRecipe() http.HandlerFunc {
 		}
 
 		book := &models.FullBook{}
-		err := mh.GetOneFullBook(book, bson.M{"_id": bookId})
+		err := mh.GetOneFullBook(book, bson.M{"fandom": objectName})
 		if err != nil {
 			http.Error(w, fmt.Sprintf("Not found"), 404)
 			return
@@ -46,19 +42,8 @@ func GetRecipe() http.HandlerFunc {
 			return
 		}
 
-		fandom := map[string]interface{}{
-			"bgColor":    book.BgColor,
-			"frontColor": book.FrontColor,
-			"textColor":  book.TextColor,
-		}
-
-		response := map[string]interface{}{
-			"recipe": foundRecipe,
-			"fandom": fandom,
-		}
-
 		renderOutput := render.New()
-		renderOutput.JSON(w, 200, response)
+		renderOutput.JSON(w, 200, foundRecipe)
 	}
 }
 

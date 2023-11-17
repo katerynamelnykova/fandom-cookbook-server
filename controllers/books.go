@@ -9,7 +9,6 @@ import (
 	"github.com/katerynamelnykova/fandom-cookbook-server/mongo"
 	"github.com/unrolled/render"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 var mh *mongo.MongoHandler
@@ -52,16 +51,11 @@ func GetBook() http.HandlerFunc {
 			return
 		}
 
-		pid := chi.URLParam(r, "id")
+		fandom := chi.URLParam(r, "fandom")
 		project := &models.Book{}
-		objectId, idErr := primitive.ObjectIDFromHex(pid)
+		objectName := fmt.Sprintf("%v", fandom)
 
-		if idErr != nil {
-			http.Error(w, fmt.Sprintf("Invalid id"), 400)
-			return
-		}
-
-		err := mh.GetOneBook(project, bson.M{"_id": objectId})
+		err := mh.GetOneBook(project, bson.M{"fandom": objectName})
 
 		if err != nil {
 			http.Error(w, err.Error(), 404)
