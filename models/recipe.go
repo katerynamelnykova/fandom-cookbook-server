@@ -11,5 +11,6 @@ type Recipe struct {
 	ID        primitive.ObjectID `json:"_idrec" bson:"_idrec"`
 	Name      string             `json:"name" bson:"name"`
 	Recipe    string             `json:"recipe" bson:"recipe"`
-	VideoLink string             `json:"videoLink" bson:"videoLink"`
+	VideoLink string             `json:"video" bson:"video"`
+	Image     string             `json:"img" bson:"img"`
 }

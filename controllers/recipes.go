@@ -42,19 +42,8 @@ func GetRecipe() http.HandlerFunc {
 			return
 		}
 
-		fandom := map[string]interface{}{
-			"bgColor":    book.BgColor,
-			"frontColor": book.FrontColor,
-			"textColor":  book.TextColor,
-		}
-
-		response := map[string]interface{}{
-			"recipe": foundRecipe,
-			"fandom": fandom,
-		}
-
 		renderOutput := render.New()
-		renderOutput.JSON(w, 200, response)
+		renderOutput.JSON(w, 200, foundRecipe)
 	}
 }
 
