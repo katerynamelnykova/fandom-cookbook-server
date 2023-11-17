@@ -18,14 +18,10 @@ func GetRecipe() http.HandlerFunc {
 			return
 		}
 
-		id := chi.URLParam(r, "id")
-		bookId, idErr := primitive.ObjectIDFromHex(id)
-		if idErr != nil {
-			http.Error(w, fmt.Sprint("Invalid id"), 400)
-			return
-		}
+		id := chi.URLParam(r, "fandom")
+		objectName := fmt.Sprintf("%v", id)
 
-		rid := chi.URLParam(r, "rid")
+		rid := chi.URLParam(r, "recipe")
 		recipeId, idErr := primitive.ObjectIDFromHex(rid)
 		if idErr != nil {
 			http.Error(w, fmt.Sprint("Invalid id"), 400)
@@ -33,7 +29,7 @@ func GetRecipe() http.HandlerFunc {
 		}
 
 		book := &models.FullBook{}
-		err := mh.GetOneFullBook(book, bson.M{"_id": bookId})
+		err := mh.GetOneFullBook(book, bson.M{"fandom": objectName})
 		if err != nil {
 			http.Error(w, fmt.Sprintf("Not found"), 404)
 			return
