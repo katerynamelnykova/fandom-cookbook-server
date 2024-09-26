@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/katerynamelnykova/fandom-cookbook-server/models"
@@ -14,11 +15,11 @@ import (
 var mh *mongo.MongoHandler
 
 func Connect() error {
-	config, configErr := models.LoadConfiguration()
-	if configErr != nil {
-		return configErr
+	mongoDbConnection := os.Getenv("MONGO_DB_CONNECTION")
+	if mongoDbConnection == "" {
+		var err error
+		return err
 	}
-	mongoDbConnection := config.Database
 
 	var err error
 	mh, err = mongo.NewHandler(mongoDbConnection)
