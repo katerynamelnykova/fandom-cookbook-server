@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/katerynamelnykova/fandom-cookbook-server/models"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func (mh *MongoHandler) GetShortFandomsInfo(filter interface{}) ([]*models.ShortFandomInfo, error) {
@@ -39,4 +40,11 @@ func (mh *MongoHandler) GetOneFullBook(c *models.FullBook, filter interface{}) e
 	ctx, cancel := context.WithTimeout(context.Background(), APITimeout)
 	defer cancel()
 	return mh.Books.FindOne(ctx, filter).Decode(c)
+}
+
+func (mh *MongoHandler) AddBooks(c []interface{}) (*mongo.InsertManyResult, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), APITimeout)
+	defer cancel()
+
+	return mh.Books.InsertMany(ctx, c)
 }

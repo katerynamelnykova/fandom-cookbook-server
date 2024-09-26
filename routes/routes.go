@@ -16,6 +16,7 @@ func Router() *chi.Mux {
 	r.Get("/api/fandoms/fandoms-highlights", controllers.ShortFandomsInfo())
 	r.Get("/api/fandoms/fandom/{fandom}", controllers.GetBook())
 	r.Get("/api/fandoms/fandom/{fandom}/{recipe}", controllers.GetRecipe())
+	r.Post("/post-db", controllers.PostDB())
 
 	return r
 }
